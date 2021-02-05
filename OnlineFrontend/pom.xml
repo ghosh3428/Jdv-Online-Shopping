@@ -19,6 +19,13 @@
 
 	<dependencies>
 
+		<!-- BACKEND -->
+		<dependency>
+			<groupId>com.niit</groupId>
+			<artifactId>OnlineBackend</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<!-- JAVAEE-API -->
 		<dependency>
 			<groupId>javax</groupId>
