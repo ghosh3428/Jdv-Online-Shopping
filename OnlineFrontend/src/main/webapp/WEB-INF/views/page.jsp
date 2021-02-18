@@ -35,8 +35,11 @@
 <!-- Bootstrap theme -->
 <link href="${bootcs}/bootstrap.min.theme.css" rel="stylesheet">
 
+<!-- Bootstrap DataTable -->
+<link href="${customcs}/dataTables.bootstrap.css" rel="stylesheet">
+
 <!-- Custom styles for this template -->
-<link href="${customcs}/myStyle.css" rel="stylesheet">
+<link href="${customcs}/shop-homepage.css" rel="stylesheet">
 
 <script>
 	window.contextRoot = '${contextRoot}';
@@ -48,33 +51,52 @@
 
 	<div class="wrapper">
 		<!-- Navigation -->
-		<%@include file="shared/nav.jsp" %>
+		<%@include file="shared/nav.jsp"%>
 
 		<!-- Page Content -->
-		<c:if test="${userclickhome == true}">
-		<%@include file="home.jsp" %>
-		</c:if>
-		
-		<c:if test="${userclickabout == true}">
-		<%@include file="about.jsp" %>
-		</c:if>
-		
-		<c:if test="${userclickcontact == true}">
-		<%@include file="contact.jsp" %>
-		</c:if>
-		
-		<c:if test="${userclickservices == true}">
-		<%@include file="services.jsp" %>
-		</c:if>
+		<div class="content">
+			<c:if test="${userclickhome == true}">
+				<%@include file="home.jsp"%>
+			</c:if>
 
+			<c:if test="${userclickabout == true}">
+				<%@include file="about.jsp"%>
+			</c:if>
+
+			<c:if test="${userclickcontact == true}">
+				<%@include file="contact.jsp"%>
+			</c:if>
+
+			<c:if test="${userclickservices == true}">
+				<%@include file="services.jsp"%>
+			</c:if>
+			
+			<c:if test="${userclickAllProducts == true  || userclickCategoryProducts == true}">
+				<%@include file="product.jsp"%>
+			</c:if>
+			
+			<c:if test="${userclickSingleProduct == true}">
+				<%@include file="Productinfo.jsp"%>
+			</c:if>
+		</div>
 		<!-- Footer -->
-		<%@include file="shared/footer.jsp" %>
+		<%@include file="shared/footer.jsp"%>
 	</div>
 	<!-- JQuery core JavaScript -->
 	<script src="${jquery}/jquery.min.js"></script>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="${bootjs}/bootstrap.min.js"></script>
+	
+	<!-- Datatable core -->
+	<script src="${custumjs}/jquery.dataTables.js"></script>
+	
+	<!-- Datatable BootStrap -->
+	<!--  
+	<script src="${custumjs}/dataTables.bootstrap.js"></script>
+	-->
+	<!-- Custom Script -->
+	<script src="${custumjs}/myscript.js"></script>
 
 </body>
 

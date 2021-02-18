@@ -31,37 +31,56 @@ public class CategoryTest
 		categoryDAO = (CategoryDAO)context.getBean("categoryDAO");
 	}
 
-	/*
-	 * @Test
+	 @Test
 	public void testAddCategory() 
 	{
 		category = new Category();
-		category.setName("Music System");
-		category.setDesc("Sample category for Music System");
+		category.setName("Music Player");
+		category.setDesc("Sample category for Music Player");
 		category.setActive(true);
-		category.setImageurl("cat4.jpg");
+		category.setImageurl("cat5.jpg");
 		
 		assertEquals("Error adding user",true,categoryDAO.addCategory(category));
 		
 		
 	}
-	
+	/*
 	
 	@Test
-	public void testAddCategory() 
+	public void testCategoryList() 
 	{
 		assertEquals("Error adding user",4,categoryDAO.getActiveCategories().size());
 		
 		
 	}
-	*/
+	
 	
 	
 	@Test
-	public void testAddCategory() 
+	public void testGetCategory() 
 	{
 		assertEquals("Error adding user","Laptop",categoryDAO.getCategory(3).getName());
 		
 		
 	}
+	
+	
+	@Test
+	public void testUpdateCategory()
+	{
+		category = categoryDAO.getCategory(3);
+		category.setName("Computer");
+		assertEquals("Error adding user",true,categoryDAO.updateCategory(category));
+		
+	}
+	
+	@Test
+	public void testDeleteCategory()
+	{
+		category = categoryDAO.getCategory(3);
+		assertEquals("Error adding user",true,categoryDAO.deleteCategory(category));
+		
+	}
+	*/
+	
 }

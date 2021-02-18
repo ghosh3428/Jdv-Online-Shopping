@@ -24,8 +24,8 @@
 					</a>
 				</li>
 				<li class="nav-item" id="services">
-					<a class="nav-link" href="${contextRoot}/services">
-						Services
+					<a class="nav-link" href="${contextRoot}/show/all/products">
+						Products
 					</a>
 				</li>
 			</ul>

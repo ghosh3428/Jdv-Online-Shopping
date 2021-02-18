@@ -12,4 +12,8 @@ public interface CategoryDAO
 	public List<Category> getActiveCategories();
 	
 	public Category getCategory(int id);
+	
+	public boolean updateCategory(Category category);
+	
+	public boolean deleteCategory(Category category);
 }

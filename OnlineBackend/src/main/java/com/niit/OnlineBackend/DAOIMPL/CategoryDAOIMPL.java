@@ -52,4 +52,34 @@ public class CategoryDAOIMPL implements CategoryDAO
 	{
 		return sessionFactory.getCurrentSession().get(Category.class, id);
 	}
+
+	@Override
+	public boolean updateCategory(Category category) 
+	{	try
+	{
+		sessionFactory.getCurrentSession().update(category);	
+		return true;
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+		return false;
+	}
+	}
+
+	@Override
+	public boolean deleteCategory(Category category) 
+	{
+		category.setActive(false);
+		try
+		{
+			sessionFactory.getCurrentSession().update(category);	
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

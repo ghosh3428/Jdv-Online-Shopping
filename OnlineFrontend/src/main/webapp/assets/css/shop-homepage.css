@@ -59,6 +59,24 @@ footer {
 }
 
 
+.wrapper 
+{	
+	min-height:100%;
+	position: relative;
+}
+.content 
+{
+	padding-bottom: 60px; /*height of the footer*/	
+}
+
+.footer {
+	width:100%;
+	position:absolute;
+	bottom:20px;
+	height: 60px;
+	
+}
+
 /*
 	custom styling
 */
