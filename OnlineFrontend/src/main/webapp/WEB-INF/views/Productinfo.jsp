@@ -45,17 +45,31 @@
 				Price: <strong> &#8377; ${product.unitPrice} /-</strong>
 			</h4>
 
-		    <h6>
-		    	Qty. Available: ${product.quantity}
-		    </h6>
+			<c:if test="${product.quantity == 0}">
+				<h6>
+					Qty. Available: <span style="color: red">Out of Stock!</span>
+				</h6>
+			</c:if>
+
+			<c:if test="${product.quantity != 0}">
+				<h6>Qty. Available: ${product.quantity}</h6>
+			</c:if>
+
 
 			<hr />
 
-			<a href="#" class="btn btn-success ">
-				<span class="glyphicon glyphicon-shopping-cart"></span>Add to Cart</a>
-	
-				
-			</a> <a href="#" class="btn btn-primary">Back</a>
+			<c:if test="${product.quantity == 0}">
+				<a href="#" class="btn btn-success disabled"> <strike>Add
+						to Cart</strike></a>
+				</a>
+			</c:if>
+
+			<c:if test="${product.quantity != 0}">
+				<a href="${contextRoot}/cart" class="btn btn-success ">Add to
+					Cart</a>
+				</a>
+			</c:if>
+			<a href="${contextRoot}/show/all/products" class="btn btn-primary">Back</a>
 
 		</div>
 
