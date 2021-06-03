@@ -19,24 +19,14 @@ public class CategoryDAOIMPL implements CategoryDAO
 	private SessionFactory sessionFactory;
 	
 	@Override
-	public boolean addCategory(Category category) 
+	public Category getCategory(int id) 
 	{
-		try
-		{
-			category.setActive(true);
-			sessionFactory.getCurrentSession().persist(category);	
-			return true;
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			return false;
-		}
+		return sessionFactory.getCurrentSession().get(Category.class,id );
 		
 	}
 
 	@Override
-	public List<Category> getActiveCategories() 
+	public List<Category> categoryList() 
 	{
 		String selectActiveCategory = "FROM Category WHERE active = :active";
 		
@@ -45,42 +35,58 @@ public class CategoryDAOIMPL implements CategoryDAO
 		query.setParameter("active", true);
 						
 		return query.getResultList();
-		
+
 	}
 
 	@Override
-	public Category getCategory(int id) 
+	public boolean insert(Category category) 
 	{
-		return sessionFactory.getCurrentSession().get(Category.class, id);
-	}
 
-	@Override
-	public boolean updateCategory(Category category) 
-	{	try
-	{
-		sessionFactory.getCurrentSession().update(category);	
-		return true;
-	}
-	catch(Exception e)
-	{
-		e.printStackTrace();
-		return false;
-	}
-	}
-
-	@Override
-	public boolean deleteCategory(Category category) 
-	{
-		category.setActive(false);
 		try
 		{
-			sessionFactory.getCurrentSession().update(category);	
+			category.setActive(true);
+			sessionFactory.getCurrentSession().persist(category);
 			return true;
 		}
 		catch(Exception e)
 		{
+			
 			e.printStackTrace();
 			return false;
 		}
 	}
+
+	@Override
+	public boolean update(Category category) 
+	{
+		try 
+		{
+			sessionFactory.getCurrentSession().update(category);
+			return true;
+		} 
+		catch (Exception ex) 
+		{
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean delete(Category category) 
+	{
+
+		category.setActive(false);
+		
+		try 
+		{
+			sessionFactory.getCurrentSession().update(category);
+			return true;
+		} 
+		catch (Exception ex) 
+		{
+			ex.printStackTrace();
+			return false;
+		}
+	}
+	
 }

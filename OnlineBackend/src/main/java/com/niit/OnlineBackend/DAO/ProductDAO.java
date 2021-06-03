@@ -7,12 +7,15 @@ import com.niit.OnlineBackend.model.Product;
 public interface ProductDAO 
 {
 
-	public boolean addProduct(Product product);
+	Product getProduct(int productId);
+	List<Product> productList();	
+	boolean addProduct(Product product);
+	boolean updateProduct(Product product);
+	boolean deleteProduct(Product product);
 	
-	public List<Product> getActiveProduct();
-	
-	public List<Product> getCategoryProduct(int categoryId);
-	
-	public Product getSingleProduct(int id);
+	List<Product> listActiveProducts();	
+	List<Product> listActiveProductsByCategory(int categoryId);
+	List<Product> getLatestActiveProducts(int count);
+	List<Product> getProductsByParam(String string, int i);
 	
 }

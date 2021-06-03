@@ -7,13 +7,9 @@ import com.niit.OnlineBackend.model.Category;
 public interface CategoryDAO 
 {
 	
-	public boolean addCategory(Category category);
-	
-	public List<Category> getActiveCategories();
-	
-	public Category getCategory(int id);
-	
-	public boolean updateCategory(Category category);
-	
-	public boolean deleteCategory(Category category);
+	Category getCategory(int id);
+	List<Category> categoryList();
+	boolean insert(Category category);
+	boolean update(Category category);
+	boolean delete(Category category);
 }

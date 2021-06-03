@@ -17,20 +17,36 @@ import com.niit.OnlineBackend.model.Product;
 public class JsonController 
 {
 	@Autowired
-	ProductDAO productDAO;
+	private ProductDAO productDAO;
 
-	@RequestMapping(value="/all/products")
+	@RequestMapping("/all/products")
 	@ResponseBody
-	public List<Product> getAllAvtiveProduct()
-	{
-		return productDAO.getActiveProduct();
+	public List<Product> getAllActiveProducts() {
+		return productDAO.listActiveProducts();
+	}
+
+	@RequestMapping("/category/{id}/products")
+	@ResponseBody
+	public List<Product> getProductsByCategory(@PathVariable int id) {
+		return productDAO.listActiveProductsByCategory(id);
 	}
 	
 	
-	@RequestMapping(value="/category/{id}/products")
+	@RequestMapping("/admin/all/products")
 	@ResponseBody
-	public List<Product> getActiveCategoryProduct(@PathVariable int id )
-	{
-		return productDAO.getCategoryProduct(id);
+	public List<Product> getProducts() {
+		return productDAO.productList();
+	}
+	
+	@RequestMapping("/mv/products")
+	@ResponseBody
+	public List<Product> getMostViewedProducts() {		
+		return productDAO.getProductsByParam("views", 5);				
+	}
+		
+	@RequestMapping("/mp/products")
+	@ResponseBody
+	public List<Product> getMostPurchasedProducts() {		
+		return productDAO.getProductsByParam("purchases", 5);				
 	}
 }

@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UplodeFile 
 {
 
-	private static final String ABS_PATH = "E:\\DebabratoJdv-Online-Shopping\\OnlineFrontend\\src\\main\\webapp\\assets\\images\\";
+	private static final String ABS_PATH = "E:\\Debabrato\\Jdv-Online-Shopping\\OnlineFrontend\\src\\main\\webapp\\assets\\images\\";
 	private static String REAL_PATH = null;
 	
 	

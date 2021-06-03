@@ -40,7 +40,7 @@ public class CategoryTest
 		category.setActive(true);
 		category.setImageurl("cat5.jpg");
 		
-		assertEquals("Error adding user",true,categoryDAO.addCategory(category));
+		assertEquals("Error adding user",true,categoryDAO.insert(category));
 		
 		
 	}

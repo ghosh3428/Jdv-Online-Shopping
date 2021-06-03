@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.niit.OnlineBackend.DAO.CategoryDAO;
@@ -71,7 +73,7 @@ public class ManageProductController
 	@ModelAttribute("categories") 
 	public List<Category> modelCategories() 
 	{
-		return categoryDAO.getActiveCategories();
+		return categoryDAO.categoryList();
 	}
 	
 	@ModelAttribute("category") 
@@ -83,8 +85,17 @@ public class ManageProductController
 	@RequestMapping(value = "/add/product", method=RequestMethod.POST)
 	public String handleProductSubmission( @Valid @ModelAttribute("product") Product newProduct, BindingResult results,Model model,HttpServletRequest request)
 	{
-		
-			new ProductValidate().validate(newProduct,results);
+			if(newProduct.getId() == 0)
+			{
+				new ProductValidate().validate(newProduct,results);
+			}
+			else
+			{
+				if(!newProduct.getFile().getOriginalFilename().equals(""))
+				{
+					new ProductValidate().validate(newProduct,results);
+				}
+			}
 			
 			if(results.hasErrors()) 
 			{
@@ -96,7 +107,14 @@ public class ManageProductController
 			}
 			
 			
-			productDAO.addProduct(newProduct);
+			if(newProduct.getId() == 0)
+			{
+				productDAO.addProduct(newProduct);
+			}
+			else
+			{
+				productDAO.updateProduct(newProduct);
+			}
 			
 			if(!newProduct.getFile().getOriginalFilename().equals("") )
 			{
@@ -110,8 +128,43 @@ public class ManageProductController
 	@RequestMapping(value = "/add/category", method=RequestMethod.POST)
 	public String handleCategorySubmission(@ModelAttribute("category") Category newCategory)
 	{
-			categoryDAO.addCategory(newCategory);
+			categoryDAO.insert(newCategory);
 			
 		return "redirect:/manage/product?operation=category";
+	}
+	
+	@RequestMapping(value = "/product/{id}/activation")
+	@ResponseBody
+	public String handleProductAvtivation(@PathVariable int id)
+	{
+		Product product = productDAO.getProduct(id);
+		
+		boolean isActive = product.isActive();
+		
+		product.setActive(!isActive);
+		
+		productDAO.updateProduct(product);	
+		
+		
+		return (isActive)? 
+				"Successfully Deactivated the product with id : " +product.getId()
+				: "Successfully Activated the product with id : " +product.getId();
+	}
+	
+
+	
+	@RequestMapping(value = "/{id}/product", method=RequestMethod.GET)
+	public ModelAndView handleProductEdit(@PathVariable int id)
+	{
+		
+		ModelAndView mv = new ModelAndView("page");	
+		mv.addObject("title","Product Management");		
+		mv.addObject("userclickManageProduct",true);
+		
+		Product product = productDAO.getProduct(id);
+		
+		mv.addObject("product", product);
+		
+		return mv;
 	}
 }

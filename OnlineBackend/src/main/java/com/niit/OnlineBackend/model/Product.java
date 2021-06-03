@@ -1,5 +1,6 @@
 package com.niit.OnlineBackend.model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -18,7 +19,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "product_jdv")
-public class Product {
+public class Product implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +49,6 @@ public class Product {
 	@Min(value=0,message="Quantity should not be less than zero")
 	private int quantity;
 
-	@JsonIgnore
 	@Column(name = "is_active")
 	private boolean active;
 

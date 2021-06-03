@@ -1,6 +1,12 @@
 package com.niit.OnlineFrontend.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +32,7 @@ public class FrontController
 	{
 		ModelAndView mv = new ModelAndView("page");
 		
-		mv.addObject("categorylist",categoryDAO.getActiveCategories());
+		mv.addObject("categorylist",categoryDAO.categoryList());
 		
 		mv.addObject("userclickhome",true);
 		mv.addObject("title" , "ONLINE SHOPPING");
@@ -57,7 +63,7 @@ public class FrontController
 		ModelAndView mv = new ModelAndView("page");
 		
 		
-		mv.addObject("categorylist",categoryDAO.getActiveCategories());
+		mv.addObject("categorylist",categoryDAO.categoryList());
 		
 		mv.addObject("userclickAllProducts",true);
 		mv.addObject("title" , "All Product");
@@ -70,7 +76,7 @@ public class FrontController
 		ModelAndView mv = new ModelAndView("page");
 		
 		
-		mv.addObject("categorylist",categoryDAO.getActiveCategories());
+		mv.addObject("categorylist",categoryDAO.categoryList());
 		
 		Category category = null;
 		category = categoryDAO.getCategory(id);
@@ -87,7 +93,7 @@ public class FrontController
 	{
 		ModelAndView mv = new ModelAndView("page");
 		
-		Product product = productDAO.getSingleProduct(id);
+		Product product = productDAO.getProduct(id);
 		
 		
 		mv.addObject("userclickSingleProduct",true);
@@ -108,15 +114,32 @@ public class FrontController
 	}
 
 	@RequestMapping(value="/login")
-	public ModelAndView login(@RequestParam(name="error", required = false)	String error)
+	public ModelAndView login(@RequestParam(name="error", required = false)	String error ,@RequestParam(name="logout", required = false)	String logout)
 	{
 		ModelAndView mv = new ModelAndView("login");
 		if(error!= null) 
 		{
 			mv.addObject("message", "Username and Password is invalid!");
 		}
+		
+		if(logout!= null) 
+		{
+			mv.addObject("logout", "You have successfully logged out.");
+		}
 		mv.addObject("title" , "LOGIN");
 		return mv;
+	}
+	
+	@RequestMapping(value = "/custom-logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response)
+	{
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	    
+	    return "redirect:/login?logout";
 	}
 	
 }

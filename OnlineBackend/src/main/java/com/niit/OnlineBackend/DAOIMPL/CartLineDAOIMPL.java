@@ -4,13 +4,16 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.OnlineBackend.DAO.CartLineDAO;
 import com.niit.OnlineBackend.model.Cart;
 import com.niit.OnlineBackend.model.CartLine;
-
-public class CartLineDAOIMPL implements CartLineDAO 
-{
+import com.niit.OnlineBackend.model.OrderDetail;
+@Repository("cartLineDAO")
+@Transactional
+public class CartLineDAOIMPL implements CartLineDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -101,4 +104,16 @@ public class CartLineDAOIMPL implements CartLineDAO
 									.setParameter("available", true)
 										.getResultList();
 	}
+	
+	@Override
+	public boolean addOrderDetail(OrderDetail orderDetail) {
+		try {			
+			sessionFactory.getCurrentSession().persist(orderDetail);			
+			return true;
+		}
+		catch(Exception ex) {
+			return false;
+		}
+	}
+
 }

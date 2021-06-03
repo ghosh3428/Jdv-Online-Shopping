@@ -1,13 +1,25 @@
 package com.niit.OnlineBackend.DAO;
 
+import java.util.List;
+
+
 import com.niit.OnlineBackend.model.Address;
+import com.niit.OnlineBackend.model.Cart;
 import com.niit.OnlineBackend.model.User;
 
 public interface UserDAO 
 {
-	public boolean addUser(User user);
+boolean addUser(User user);
 	
-	public boolean addAddress(Address address);
+	boolean addAddress(Address address);
 	
-	public User getByEmail(String email);
+	boolean updateCart(Cart cart);
+	
+	User getByEmail(String email) ;
+	
+	Address getBillingAddress(int userId);
+	
+	List<Address> listShippingAddresses(int userId);
+	
+	Address getAddress(int addressId);
 }

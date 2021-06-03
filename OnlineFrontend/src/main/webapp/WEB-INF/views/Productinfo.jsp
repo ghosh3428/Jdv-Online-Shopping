@@ -57,18 +57,32 @@
 
 
 			<hr />
+			<security:authorize access="hasAuthority('USER')">
+				<c:choose>
 
-			<c:if test="${product.quantity == 0}">
-				<a href="#" class="btn btn-success disabled"> <strike>Add
-						to Cart</strike></a>
-				</a>
-			</c:if>
+					<c:when test="${product.quantity == 0}">
+						<a href="#" class="btn btn-success disabled"> <strike>Add
+								to Cart</strike></a>
+						</a>
+					</c:when>
 
-			<c:if test="${product.quantity != 0}">
-				<a href="${contextRoot}/cart" class="btn btn-success ">Add to
-					Cart</a>
-				</a>
-			</c:if>
+					<c:otherwise>
+						<a href="${contextRoot}/cart" class="btn btn-success ">Add to
+							Cart</a>
+						</a>
+					</c:otherwise>
+				</c:choose>
+			</security:authorize>
+			
+			<security:authorize access="hasAuthority('ADMIN')">
+				
+						<a href="${contextRoot}/manage/${product.id}/product"
+							class="btn btn-success"> <span
+							class="glyphicon glyphicon-shopping-cart"></span> Edit Product
+						</a>
+
+			
+			</security:authorize>
 			<a href="${contextRoot}/show/all/products" class="btn btn-primary">Back</a>
 
 		</div>

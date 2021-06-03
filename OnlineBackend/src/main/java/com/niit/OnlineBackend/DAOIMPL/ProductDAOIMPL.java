@@ -20,46 +20,122 @@ public class ProductDAOIMPL implements ProductDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
-	public boolean addProduct(Product product) 
+	public Product getProduct(int productId) 
 	{
-		try {
+		
+		return sessionFactory.getCurrentSession().get(Product.class,Integer.valueOf(productId));
+	}
+
+	@Override
+	public List<Product> productList() 
+	{
+		return sessionFactory
+				.getCurrentSession()
+				.createQuery("FROM Product" , Product.class)
+				.getResultList();
+	}
+
+	public boolean addProduct(Product product)
+	{
+		try 
+		{	
+			product.setActive(true);
 			sessionFactory.getCurrentSession().persist(product);
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
 		}
-
+		catch(Exception ex) 
+		{		
+			ex.printStackTrace();
+			return false;
+		}		
+		
 	}
 
 	@Override
-	public List<Product> getActiveProduct() {
-		String selectActiveProduct = "FROM Product WHERE active = :active";
-
-		Query query = sessionFactory.getCurrentSession().createQuery(selectActiveProduct);
-
-		query.setParameter("active", true);
-
-		return query.getResultList();
-
-	}
-
-	@Override
-	public List<Product> getCategoryProduct(int categoryId) {
-		String selectActiveProduct = "FROM Product WHERE active = :active and categoryId = :categoryId";
-
-		Query query = sessionFactory.getCurrentSession().createQuery(selectActiveProduct);
-
-		query.setParameter("active", true);
-		query.setParameter("categoryId", categoryId);
-
-		return query.getResultList();
-	}
-
-	@Override
-	public Product getSingleProduct(int id) 
+	public boolean updateProduct(Product product) 
 	{
-		return sessionFactory.getCurrentSession().get(Product.class, id);
+		try 
+		{			
+			sessionFactory.getCurrentSession().update(product);
+			return true;
+		}
+		catch(Exception ex) 
+		{		
+			ex.printStackTrace();
+			return false;
+			
+		}		
+		
+	}
+
+	@Override
+	public boolean deleteProduct(Product product) 
+	{
+		try 
+		{
+			
+			product.setActive(false);
+			sessionFactory.getCurrentSession().update(product);
+			return true;
+		}
+		catch(Exception ex) 
+		{		
+			ex.printStackTrace();
+			return false;
+		}		
+		
+	}
+
+	@Override
+	public List<Product> listActiveProducts() 
+	{
+		String selectActiveCategory = "FROM Product WHERE active = :active";
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(selectActiveCategory);
+				
+		query.setParameter("active", true);
+						
+		return query.getResultList();
+	}
+
+	@Override
+	public List<Product> listActiveProductsByCategory(int categoryId) 
+	{
+		String selectActiveProductsByCategory = "FROM Product WHERE active = :active AND categoryId = :categoryId";
+		Query query = sessionFactory.getCurrentSession().createQuery(selectActiveProductsByCategory);
+		query.setParameter("active", true);
+		query.setParameter("categoryId",categoryId);
+		
+		return query.getResultList();
+		
+	}
+
+	@Override
+	public List<Product> getLatestActiveProducts(int count) 
+	{
+		return sessionFactory
+				.getCurrentSession()
+				.createQuery("FROM Product WHERE active = :active ORDER BY id", Product.class)
+				.setParameter("active", true)
+				.setFirstResult(0)
+				.setMaxResults(count)
+				.getResultList();
+		
+	}
+
+	@Override
+public List<Product> getProductsByParam(String param, int count) {
+		
+		String query = "FROM Product WHERE active = true ORDER BY " + param + " DESC";
+		
+		return sessionFactory
+					.getCurrentSession()
+					.createQuery(query,Product.class)
+					.setFirstResult(0)
+					.setMaxResults(count)
+					.getResultList();
+					
+		
 	}
 
 }

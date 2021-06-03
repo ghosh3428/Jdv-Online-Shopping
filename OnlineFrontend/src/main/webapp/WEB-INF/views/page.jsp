@@ -83,7 +83,7 @@
 				<%@include file="manageProduct.jsp"%>
 			</c:if>
 			
-			<c:if test="${userclickShowCart == true}">
+			<c:if test="${userClickShowCart == true}">
 				<%@include file="cart.jsp"%>
 			</c:if>
 		</div>
@@ -103,6 +103,9 @@
 	<!--  
 	<script src="${custumjs}/dataTables.bootstrap.js"></script>
 	-->
+	
+	<script src="${custumjs}/bootbox.min.js"></script>
+	
 	<!-- Custom Script -->
 	<script src="${custumjs}/myscript.js"></script>
 
